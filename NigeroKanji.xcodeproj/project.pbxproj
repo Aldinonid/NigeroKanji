@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F050BA826AB226700323EBD /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050BA726AB226700323EBD /* Define.swift */; };
+		6F050BAA26AB2B5000323EBD /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6F050BA926AB2B5000323EBD /* Starfield.sks */; };
 		A5591EB426AA77F900EE39A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB326AA77F900EE39A6 /* AppDelegate.swift */; };
 		A5591EB626AA77F900EE39A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB526AA77F900EE39A6 /* SceneDelegate.swift */; };
 		A5591EB826AA77F900EE39A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB726AA77F900EE39A6 /* ViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F050BA726AB226700323EBD /* Define.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
+		6F050BA926AB2B5000323EBD /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		A5591EB026AA77F900EE39A6 /* NigeroKanji.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NigeroKanji.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5591EB326AA77F900EE39A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5591EB526AA77F900EE39A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +81,7 @@
 				A5591EB926AA77F900EE39A6 /* Main.storyboard */,
 				A5591EBF26AA77FA00EE39A6 /* Assets.xcassets */,
 				A5591EC126AA77FA00EE39A6 /* LaunchScreen.storyboard */,
+				6F050BA926AB2B5000323EBD /* Starfield.sks */,
 				A5591EC426AA77FA00EE39A6 /* Info.plist */,
 				A5591EBC26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld */,
 			);
@@ -97,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				A5591ECD26AA782500EE39A6 /* Questions.swift */,
+				6F050BA726AB226700323EBD /* Define.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F050BAA26AB2B5000323EBD /* Starfield.sks in Resources */,
 				A5591ED426AA788100EE39A6 /* LevelComplete.storyboard in Resources */,
 				A5591EC326AA77FA00EE39A6 /* LaunchScreen.storyboard in Resources */,
 				A5591ED026AA785400EE39A6 /* MainGame.storyboard in Resources */,
@@ -188,6 +195,7 @@
 				A5591ED626AA78E000EE39A6 /* MainGameViewController.swift in Sources */,
 				A5591ECE26AA782500EE39A6 /* Questions.swift in Sources */,
 				A5591EB626AA77F900EE39A6 /* SceneDelegate.swift in Sources */,
+				6F050BA826AB226700323EBD /* Define.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,7 +343,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YKQLRUN464;
+				DEVELOPMENT_TEAM = 46Z46S2G8M;
 				INFOPLIST_FILE = NigeroKanji/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -354,7 +362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YKQLRUN464;
+				DEVELOPMENT_TEAM = 46Z46S2G8M;
 				INFOPLIST_FILE = NigeroKanji/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
