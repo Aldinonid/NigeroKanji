@@ -27,5 +27,11 @@ var questionList: [Question] = [
 var kanjiList: [Kanji] = [
 	Kanji(name: "会"),
 	Kanji(name: "楽"),
-	
+	Kanji(name: "同"),
+	Kanji(name: "事"),
+	Kanji(name: "自"),
+	Kanji(name: "者"),
+	Kanji(name: "発"),
+	Kanji(name: "社"),
+	Kanji(name: ""),
 ]
