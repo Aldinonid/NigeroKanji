@@ -7,39 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F050BA826AB226700323EBD /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050BA726AB226700323EBD /* Define.swift */; };
-		6F050BAA26AB2B5000323EBD /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6F050BA926AB2B5000323EBD /* Starfield.sks */; };
 		A5591EB426AA77F900EE39A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB326AA77F900EE39A6 /* AppDelegate.swift */; };
-		A5591EB626AA77F900EE39A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB526AA77F900EE39A6 /* SceneDelegate.swift */; };
-		A5591EB826AA77F900EE39A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591EB726AA77F900EE39A6 /* ViewController.swift */; };
 		A5591EBB26AA77F900EE39A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5591EB926AA77F900EE39A6 /* Main.storyboard */; };
-		A5591EBE26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A5591EBC26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld */; };
 		A5591EC026AA77FA00EE39A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5591EBF26AA77FA00EE39A6 /* Assets.xcassets */; };
-		A5591EC326AA77FA00EE39A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5591EC126AA77FA00EE39A6 /* LaunchScreen.storyboard */; };
-		A5591ECE26AA782500EE39A6 /* Questions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591ECD26AA782500EE39A6 /* Questions.swift */; };
-		A5591ED026AA785400EE39A6 /* MainGame.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5591ECF26AA785400EE39A6 /* MainGame.storyboard */; };
-		A5591ED226AA786900EE39A6 /* MapOfJourney.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5591ED126AA786900EE39A6 /* MapOfJourney.storyboard */; };
-		A5591ED426AA788100EE39A6 /* LevelComplete.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5591ED326AA788100EE39A6 /* LevelComplete.storyboard */; };
-		A5591ED626AA78E000EE39A6 /* MainGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5591ED526AA78E000EE39A6 /* MainGameViewController.swift */; };
+		A5DE8D2026AD9FB8009026D0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5DE8D1C26AD9FB8009026D0 /* Actions.sks */; };
+		A5DE8D2126AD9FB8009026D0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5DE8D1D26AD9FB8009026D0 /* GameScene.sks */; };
+		A5DE8D2226AD9FB8009026D0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE8D1E26AD9FB8009026D0 /* GameScene.swift */; };
+		A5DE8D2326AD9FB8009026D0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE8D1F26AD9FB8009026D0 /* GameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F050BA726AB226700323EBD /* Define.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
-		6F050BA926AB2B5000323EBD /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		A5591EB026AA77F900EE39A6 /* NigeroKanji.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NigeroKanji.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5591EB326AA77F900EE39A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A5591EB526AA77F900EE39A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A5591EB726AA77F900EE39A6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A5591EBA26AA77F900EE39A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A5591EBD26AA77F900EE39A6 /* NigeroKanji.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NigeroKanji.xcdatamodel; sourceTree = "<group>"; };
 		A5591EBF26AA77FA00EE39A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A5591EC226AA77FA00EE39A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5591EC426AA77FA00EE39A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5591ECD26AA782500EE39A6 /* Questions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Questions.swift; sourceTree = "<group>"; };
-		A5591ECF26AA785400EE39A6 /* MainGame.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainGame.storyboard; sourceTree = "<group>"; };
-		A5591ED126AA786900EE39A6 /* MapOfJourney.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapOfJourney.storyboard; sourceTree = "<group>"; };
-		A5591ED326AA788100EE39A6 /* LevelComplete.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LevelComplete.storyboard; sourceTree = "<group>"; };
-		A5591ED526AA78E000EE39A6 /* MainGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainGameViewController.swift; sourceTree = "<group>"; };
+		A5DE8D1C26AD9FB8009026D0 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		A5DE8D1D26AD9FB8009026D0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		A5DE8D1E26AD9FB8009026D0 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A5DE8D1F26AD9FB8009026D0 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +42,6 @@
 		A5591EA726AA77F900EE39A6 = {
 			isa = PBXGroup;
 			children = (
-				A5591ECC26AA781400EE39A6 /* Controller */,
-				A5591ECB26AA780700EE39A6 /* Model */,
-				A5591ECA26AA780200EE39A6 /* Views */,
 				A5591EB226AA77F900EE39A6 /* NigeroKanji */,
 				A5591EB126AA77F900EE39A6 /* Products */,
 			);
@@ -75,44 +58,16 @@
 		A5591EB226AA77F900EE39A6 /* NigeroKanji */ = {
 			isa = PBXGroup;
 			children = (
+				A5DE8D1C26AD9FB8009026D0 /* Actions.sks */,
+				A5DE8D1D26AD9FB8009026D0 /* GameScene.sks */,
+				A5DE8D1E26AD9FB8009026D0 /* GameScene.swift */,
+				A5DE8D1F26AD9FB8009026D0 /* GameViewController.swift */,
 				A5591EB326AA77F900EE39A6 /* AppDelegate.swift */,
-				A5591EB526AA77F900EE39A6 /* SceneDelegate.swift */,
-				A5591EB726AA77F900EE39A6 /* ViewController.swift */,
 				A5591EB926AA77F900EE39A6 /* Main.storyboard */,
 				A5591EBF26AA77FA00EE39A6 /* Assets.xcassets */,
-				A5591EC126AA77FA00EE39A6 /* LaunchScreen.storyboard */,
-				6F050BA926AB2B5000323EBD /* Starfield.sks */,
 				A5591EC426AA77FA00EE39A6 /* Info.plist */,
-				A5591EBC26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld */,
 			);
 			path = NigeroKanji;
-			sourceTree = "<group>";
-		};
-		A5591ECA26AA780200EE39A6 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				A5591ECF26AA785400EE39A6 /* MainGame.storyboard */,
-				A5591ED126AA786900EE39A6 /* MapOfJourney.storyboard */,
-				A5591ED326AA788100EE39A6 /* LevelComplete.storyboard */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		A5591ECB26AA780700EE39A6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				A5591ECD26AA782500EE39A6 /* Questions.swift */,
-				6F050BA726AB226700323EBD /* Define.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		A5591ECC26AA781400EE39A6 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				A5591ED526AA78E000EE39A6 /* MainGameViewController.swift */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,13 +127,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F050BAA26AB2B5000323EBD /* Starfield.sks in Resources */,
-				A5591ED426AA788100EE39A6 /* LevelComplete.storyboard in Resources */,
-				A5591EC326AA77FA00EE39A6 /* LaunchScreen.storyboard in Resources */,
-				A5591ED026AA785400EE39A6 /* MainGame.storyboard in Resources */,
+				A5DE8D2126AD9FB8009026D0 /* GameScene.sks in Resources */,
 				A5591EC026AA77FA00EE39A6 /* Assets.xcassets in Resources */,
-				A5591ED226AA786900EE39A6 /* MapOfJourney.storyboard in Resources */,
 				A5591EBB26AA77F900EE39A6 /* Main.storyboard in Resources */,
+				A5DE8D2026AD9FB8009026D0 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,13 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5591EB826AA77F900EE39A6 /* ViewController.swift in Sources */,
-				A5591EBE26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld in Sources */,
+				A5DE8D2326AD9FB8009026D0 /* GameViewController.swift in Sources */,
+				A5DE8D2226AD9FB8009026D0 /* GameScene.swift in Sources */,
 				A5591EB426AA77F900EE39A6 /* AppDelegate.swift in Sources */,
-				A5591ED626AA78E000EE39A6 /* MainGameViewController.swift in Sources */,
-				A5591ECE26AA782500EE39A6 /* Questions.swift in Sources */,
-				A5591EB626AA77F900EE39A6 /* SceneDelegate.swift in Sources */,
-				6F050BA826AB226700323EBD /* Define.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,14 +156,6 @@
 				A5591EBA26AA77F900EE39A6 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A5591EC126AA77FA00EE39A6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5591EC226AA77FA00EE39A6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -343,7 +283,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 46Z46S2G8M;
+				DEVELOPMENT_TEAM = YKQLRUN464;
 				INFOPLIST_FILE = NigeroKanji/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -362,7 +302,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 46Z46S2G8M;
+				DEVELOPMENT_TEAM = YKQLRUN464;
 				INFOPLIST_FILE = NigeroKanji/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -397,19 +337,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		A5591EBC26AA77F900EE39A6 /* NigeroKanji.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A5591EBD26AA77F900EE39A6 /* NigeroKanji.xcdatamodel */,
-			);
-			currentVersion = A5591EBD26AA77F900EE39A6 /* NigeroKanji.xcdatamodel */;
-			path = NigeroKanji.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = A5591EA826AA77F900EE39A6 /* Project object */;
 }
