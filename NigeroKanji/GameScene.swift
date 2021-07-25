@@ -1,6 +1,6 @@
 //
 //  GameScene.swift
-//  game
+//  NigeroKanji
 //
 //  Created by Aldino Efendi on 2021/07/25.
 //
