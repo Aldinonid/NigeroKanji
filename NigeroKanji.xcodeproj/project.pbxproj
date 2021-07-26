@@ -13,6 +13,8 @@
 		6FA3133626ADAC5400CB5622 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3133526ADAC5400CB5622 /* Starfield.sks */; };
 		6FA3133926ADAC8500CB5622 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3133726ADAC8500CB5622 /* explosion.mp3 */; };
 		6FA3133A26ADAC8500CB5622 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6FA3133826ADAC8500CB5622 /* Explosion.sks */; };
+		6FDBB9C326AF354600288299 /* theboldfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6FDBB9C226AF354600288299 /* theboldfont.ttf */; };
+		6FDBB9C526AF456200288299 /* Sakura.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6FDBB9C426AF456200288299 /* Sakura.sks */; };
 		A5DE8D3126ADA1BE009026D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DE8D3026ADA1BE009026D0 /* AppDelegate.swift */; };
 		A5DE8D3326ADA1BE009026D0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5DE8D3226ADA1BE009026D0 /* GameScene.sks */; };
 		A5DE8D3526ADA1BE009026D0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A5DE8D3426ADA1BE009026D0 /* Actions.sks */; };
@@ -29,6 +31,8 @@
 		6FA3133526ADAC5400CB5622 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		6FA3133726ADAC8500CB5622 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		6FA3133826ADAC8500CB5622 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		6FDBB9C226AF354600288299 /* theboldfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = theboldfont.ttf; sourceTree = "<group>"; };
+		6FDBB9C426AF456200288299 /* Sakura.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Sakura.sks; sourceTree = "<group>"; };
 		A5DE8D2D26ADA1BE009026D0 /* NigeroKanji.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NigeroKanji.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5DE8D3026ADA1BE009026D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5DE8D3226ADA1BE009026D0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -86,12 +90,14 @@
 				A5DE8D3226ADA1BE009026D0 /* GameScene.sks */,
 				A5DE8D3426ADA1BE009026D0 /* Actions.sks */,
 				A5DE8D3826ADA1BE009026D0 /* GameViewController.swift */,
+				6FDBB9C226AF354600288299 /* theboldfont.ttf */,
 				A5DE8D3A26ADA1BE009026D0 /* Main.storyboard */,
-				6FA3133526ADAC5400CB5622 /* Starfield.sks */,
 				6FA3133726ADAC8500CB5622 /* explosion.mp3 */,
 				6FA3133826ADAC8500CB5622 /* Explosion.sks */,
 				A5DE8D3D26ADA1BF009026D0 /* Assets.xcassets */,
 				A5DE8D3F26ADA1BF009026D0 /* Info.plist */,
+				6FDBB9C426AF456200288299 /* Sakura.sks */,
+				6FA3133526ADAC5400CB5622 /* Starfield.sks */,
 			);
 			path = NigeroKanji;
 			sourceTree = "<group>";
@@ -153,9 +159,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FDBB9C326AF354600288299 /* theboldfont.ttf in Resources */,
 				6FA3133926ADAC8500CB5622 /* explosion.mp3 in Resources */,
 				A5DE8D3C26ADA1BE009026D0 /* Main.storyboard in Resources */,
 				A5DE8D3326ADA1BE009026D0 /* GameScene.sks in Resources */,
+				6FDBB9C526AF456200288299 /* Sakura.sks in Resources */,
 				6FA3133626ADAC5400CB5622 /* Starfield.sks in Resources */,
 				A5DE8D3E26ADA1BF009026D0 /* Assets.xcassets in Resources */,
 				6FA3133A26ADAC8500CB5622 /* Explosion.sks in Resources */,

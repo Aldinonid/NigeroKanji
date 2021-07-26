@@ -11,6 +11,7 @@ import CoreMotion
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    @objc var background:SKSpriteNode!
     var starfield:SKEmitterNode!
     var player:SKSpriteNode!
     let questionLabel = SKLabelNode(fontNamed: "theboldfont")
@@ -48,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameTimer:Timer!
     
-    var possibleAliens = ["alien", "alien2", "alien3", "alien4"]
+    var possibleAliens = ["alien", "alien2", "alien3"]
     
     var currentGameState = GameState.preGame
     
@@ -81,73 +82,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         starfield.advanceSimulationTime(10)
         starfield.setScale(1.1)
         self.addChild(starfield)
-        starfield.zPosition = -1
+        starfield.zPosition = 1
         
-
-        questionLabel.text = question
-        questionLabel.numberOfLines = 3
-        questionLabel.fontSize = 75
-        questionLabel.horizontalAlignmentMode = .center
-        questionLabel.fontColor = SKColor.white
-        questionLabel.preferredMaxLayoutWidth = self.frame.size.width/2
-        questionLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
-        questionLabel.zPosition = 1
-        self.addChild(questionLabel)
         
-        levelTimerLabel.fontColor = SKColor.white
-        levelTimerLabel.fontSize = 100
-        levelTimerLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.08)
-        levelTimerLabel.text = "Time left: \(levelTimerValue)"
-        addChild(levelTimerLabel)
-
-        let wait = SKAction.wait(forDuration: 1) //change countdown speed here
-        let block = SKAction.run({
-                [unowned self] in
-
-                if self.levelTimerValue > 0{
-                    self.levelTimerValue-=1
-                }else{
-                    self.removeAction(forKey: "countdown")
-                }
-            })
-            let sequence = SKAction.sequence([wait,block])
-
-        run(SKAction.repeatForever(sequence), withKey: "countdown")
-        
-//        countDownLabel.text = String(Int(countDown))
-//        countDownLabel.fontSize = 100
-//        countDownLabel.fontColor = SKColor.white
-//        countDownLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.8)
-//        countDownLabel.zPosition = 1
-//        self.addChild(countDownLabel)
-
-        kanjiLebel1.text = kanjiLevel1
-        kanjiLebel1.fontSize = 175
-        kanjiLebel1.fontColor = SKColor.white
-        kanjiLebel1.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height/1.25)
-        kanjiLebel1.zPosition = 1
-        self.addChild(kanjiLebel1)
-        
-        kanjiLebel2.text = kanjiLevel2
-        kanjiLebel2.fontSize = 175
-        kanjiLebel2.fontColor = SKColor.white
-        kanjiLebel2.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height/1.25)
-        kanjiLebel2.zPosition = 1
-        self.addChild(kanjiLebel2)
-        
-        kanjiLebel3.text = kanjiLevel3
-        kanjiLebel3.fontSize = 175
-        kanjiLebel3.fontColor = SKColor.white
-        kanjiLebel3.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height/1.25)
-        kanjiLebel3.zPosition = 1
-        self.addChild(kanjiLebel3)
-        
-        kanjiLebel4.text = kanjiLevel4
-        kanjiLebel4.fontSize = 175
-        kanjiLebel4.fontColor = SKColor.white
-        kanjiLebel4.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height/1.25)
-        kanjiLebel4.zPosition = 1
-        self.addChild(kanjiLebel4)
+        runningBackground1()
+        runningBackground2()
+        timmer()
         
         // player
         player = SKSpriteNode(imageNamed: "shuttle")
@@ -162,6 +102,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(player)
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
+        
+        levelTimerLabel.fontColor = SKColor.brown
+        levelTimerLabel.fontSize = 100
+        levelTimerLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.08)
+        addChild(levelTimerLabel)
+        
+        questionLabel.text = question
+        questionLabel.numberOfLines = 3
+        questionLabel.fontSize = 75
+        questionLabel.horizontalAlignmentMode = .center
+        questionLabel.fontColor = SKColor.brown
+        questionLabel.preferredMaxLayoutWidth = self.frame.size.width/2
+        questionLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        questionLabel.zPosition = 1
+        self.addChild(questionLabel)
+        
+
+        kanjiLebel1.text = kanjiLevel1
+        kanjiLebel1.fontSize = 175
+        kanjiLebel1.fontColor = SKColor.brown
+        kanjiLebel1.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height/1.25)
+        kanjiLebel1.zPosition = 1
+        self.addChild(kanjiLebel1)
+        
+        kanjiLebel2.text = kanjiLevel2
+        kanjiLebel2.fontSize = 175
+        kanjiLebel2.fontColor = SKColor.brown
+        kanjiLebel2.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height/1.25)
+        kanjiLebel2.zPosition = 1
+        self.addChild(kanjiLebel2)
+        
+        kanjiLebel3.text = kanjiLevel3
+        kanjiLebel3.fontSize = 175
+        kanjiLebel3.fontColor = SKColor.brown
+        kanjiLebel3.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height/1.25)
+        kanjiLebel3.zPosition = 1
+        self.addChild(kanjiLebel3)
+        
+        kanjiLebel4.text = kanjiLevel4
+        kanjiLebel4.fontSize = 175
+        kanjiLebel4.fontColor = SKColor.brown
+        kanjiLebel4.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height/1.25)
+        kanjiLebel4.zPosition = 1
+        self.addChild(kanjiLebel4)
+        
+        
         
         spawnAlien()
         
@@ -202,7 +188,72 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.run(startGameSequence)
     }
     
+    @objc func runningBackground1() {
+        background = SKSpriteNode(imageNamed: "MainGameScreen")
+        background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
+//        starfield.advanceSimulationTime(10)
+        background.setScale(1)
+        let animationDuration:TimeInterval = 3.75
+        background.zPosition = -1
+        self.addChild(background)
+        
+        var actionBackground = [SKAction]()
+        background.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
+        actionBackground.append(SKAction.move(to: CGPoint(x: self.frame.size.width/2, y: -background.size.height), duration: animationDuration))
+        background.run(SKAction.sequence(actionBackground))
+        
+//        background.run(SKAction.sequence(moveForever))
+    }
+    
+    @objc func runningBackground2() {
+        background = SKSpriteNode(imageNamed: "MainGameScreen")
+        background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
+//        starfield.advanceSimulationTime(10)
+        background.setScale(1)
+        let animationDuration:TimeInterval = 2.5
+        
+        var actionBackground = [SKAction]()
+        background.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height+self.frame.size.height/2)
+        actionBackground.append(SKAction.move(to: CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2), duration: animationDuration))
+        background.run(SKAction.sequence(actionBackground))
+        background.zPosition = -1
+        self.addChild(background)
+//        background.run(SKAction.sequence(moveForever))
+    }
+    
+    @objc func timmer() {
+        
+        
+        levelTimerLabel.text = "Time left: \(levelTimerValue)"
+        let wait = SKAction.wait(forDuration: 1) //change countdown speed here
+        let block = SKAction.run({
+                [unowned self] in
+
+                if self.levelTimerValue > 0{
+                    self.levelTimerValue-=1
+                }else{
+//                    self.removeAction(forKey: "countdown")
+                    var levelTimerValue: Int = 7 {
+                        didSet {
+                            levelTimerLabel.text = "Time left: \(levelTimerValue)"
+                        }
+                    }
+                    timmer()
+                }
+            })
+            let sequence = SKAction.sequence([wait,block])
+        
+
+        run(SKAction.repeatForever(sequence), withKey: "countdown")
+//        levelTimerLabel.removeFromParent()
+    }
+//
+    
     func spawnAlien() {
+        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground1), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground2), userInfo: nil, repeats: true)
+//        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(timmer), userInfo: nil, repeats: true)
+        
         if kanjiLebel1.text != answer {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: true)
         }

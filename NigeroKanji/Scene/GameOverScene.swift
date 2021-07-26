@@ -12,7 +12,7 @@ import SpriteKit
 class GameOverScene: SKScene{
  
     let restartLabel = SKLabelNode(fontNamed: "theboldfont")
-    var starfield:SKEmitterNode!
+    var background:SKSpriteNode!
     
     override func didMove(to view: SKView) {
         
@@ -22,17 +22,18 @@ class GameOverScene: SKScene{
 //        bckRnd.zPosition = 0
 //        self.addChild(bckRnd)
         
-        starfield = SKEmitterNode(fileNamed: "Starfield")
-        starfield.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height)
-        starfield.advanceSimulationTime(10)
-        starfield.setScale(1.1)
-        self.addChild(starfield)
-        starfield.zPosition = -1
+        background = SKSpriteNode(imageNamed: "MainGameScreen")
+        background.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
+        background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
+//        starfield.advanceSimulationTime(10)
+        background.setScale(1)
+        self.addChild(background)
+        background.zPosition = -1
         
         let gameOverLabel = SKLabelNode(fontNamed: "theboldfont")
         gameOverLabel.text = "Game Over"
         gameOverLabel.fontSize = 150
-        gameOverLabel.fontColor = SKColor.white
+        gameOverLabel.fontColor = SKColor.brown
         gameOverLabel.position = CGPoint(x: self.size.width * 0.5, y: self.size.height * 0.7)
         gameOverLabel.zPosition = 1
         self.addChild(gameOverLabel)
@@ -64,7 +65,7 @@ class GameOverScene: SKScene{
         
         restartLabel.text = "Restart"
         restartLabel.fontSize = 90
-        restartLabel.fontColor = SKColor.white
+        restartLabel.fontColor = SKColor.brown
         restartLabel.position = CGPoint(x: self.size.width/2, y: self.size.height * 0.3)
         restartLabel.zPosition = 1
         self.addChild(restartLabel)
