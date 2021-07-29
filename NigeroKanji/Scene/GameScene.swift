@@ -24,10 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let countDownLabel = SKLabelNode(fontNamed: "theboldfont")
     var levelTimerLabel = SKLabelNode(fontNamed: "theboldfont")
     
-
-    var answer = answer1
-    var question = question1
-    var kanjiStage1 = [kanjiLevel1, kanjiLevel2!, kanjiLevel3!, kanjiLevel4!] as [Any]
+    var send = [kanjiBallon1, kanjiBallon2, kanjiBallon3, kanjiBallon4, question, answer]
     
     var livesNumber = 3
     var levelNumber = 1
@@ -94,11 +91,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(sakuraFalls)
         sakuraFalls.zPosition = 1
         
-        
         runningBackground1()
         runningBackground2()
 
-        
         // player
         player = SKSpriteNode(imageNamed: "ninc2")
         player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 150)
@@ -136,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         levelTimerLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.08)
         addChild(levelTimerLabel)
         
-        questionLabel.text = question
+        questionLabel.text = "coba tebak kanji mana yang artinya : \(question)"
         questionLabel.numberOfLines = 3
         questionLabel.fontSize = 75
         questionLabel.horizontalAlignmentMode = .center
@@ -147,28 +142,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(questionLabel)
         
 
-        kanjiLebel1.text = kanjiLevel1
+        kanjiLebel1.text = kanjiBallon1
         kanjiLebel1.fontSize = 175
         kanjiLebel1.fontColor = SKColor.brown
         kanjiLebel1.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height/1.25)
         kanjiLebel1.zPosition = 1
         self.addChild(kanjiLebel1)
         
-        kanjiLebel2.text = kanjiLevel2
+        kanjiLebel2.text = kanjiBallon2
         kanjiLebel2.fontSize = 175
         kanjiLebel2.fontColor = SKColor.brown
         kanjiLebel2.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height/1.25)
         kanjiLebel2.zPosition = 1
         self.addChild(kanjiLebel2)
         
-        kanjiLebel3.text = kanjiLevel3
+        kanjiLebel3.text = kanjiBallon3
         kanjiLebel3.fontSize = 175
         kanjiLebel3.fontColor = SKColor.brown
         kanjiLebel3.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height/1.25)
         kanjiLebel3.zPosition = 1
         self.addChild(kanjiLebel3)
         
-        kanjiLebel4.text = kanjiLevel4
+        kanjiLebel4.text = kanjiBallon4
         kanjiLebel4.fontSize = 175
         kanjiLebel4.fontColor = SKColor.brown
         kanjiLebel4.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height/1.25)
