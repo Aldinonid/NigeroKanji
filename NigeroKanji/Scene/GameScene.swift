@@ -12,8 +12,10 @@ import CoreMotion
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc var background:SKSpriteNode!
-    var starfield:SKEmitterNode!
+    var sakuraFalls:SKEmitterNode!
     var player:SKSpriteNode!
+    let scoreLabel = SKLabelNode(fontNamed: "theboldfont")
+    let livesLabel = SKLabelNode(fontNamed: "theboldfont")
     let questionLabel = SKLabelNode(fontNamed: "theboldfont")
     let kanjiLebel1 = SKLabelNode(fontNamed: "theboldfont")
     let kanjiLebel2 = SKLabelNode(fontNamed: "theboldfont")
@@ -26,11 +28,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var answer = answer1
     var question = question1
     var kanjiStage1 = [kanjiLevel1, kanjiLevel2!, kanjiLevel3!, kanjiLevel4!] as [Any]
-
+    
+    var livesNumber = 3
     var levelNumber = 1
+//    var levelTime = 7
     var levelTimerValue: Int = 7 {
         didSet {
             levelTimerLabel.text = "Time left: \(levelTimerValue)"
+        }
+    }
+    
+    var gameScore = 0
+    var score:Int = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
         }
     }
     
@@ -40,12 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case afterGame
     }
     
-//    var scoreLabel:SKLabelNode!
-//    var score:Int = 0 {
-//        didSet {
-//            scoreLabel.text = "Score: \(score)"
-//        }
-//    }
+    
     
     var gameTimer:Timer!
     
@@ -54,7 +60,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentGameState = GameState.preGame
     
     let alienCategory:UInt32 = 0x1 << 1
+    let answerCategory:UInt32 = 0x1 << 1
     let photonTorpedoCategory:UInt32 = 0x1 << 0
+
     let gameArea: CGRect
     
     let motionManger = CMMotionManager()
@@ -75,24 +83,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     override func didMove(to view: SKView) {
         
-        starfield = SKEmitterNode(fileNamed: "Starfield")
-        starfield.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height)
-        starfield.advanceSimulationTime(10)
-        starfield.setScale(1.1)
-        self.addChild(starfield)
-        starfield.zPosition = 1
+        sakuraFalls = SKEmitterNode(fileNamed: "Starfield")
+        sakuraFalls.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height)
+        sakuraFalls.advanceSimulationTime(10)
+        sakuraFalls.setScale(1.1)
+        self.addChild(sakuraFalls)
+        sakuraFalls.zPosition = 1
         
         
         runningBackground1()
         runningBackground2()
-        timmer()
+
         
         // player
-        player = SKSpriteNode(imageNamed: "shuttle")
+        player = SKSpriteNode(imageNamed: "ninc2")
         player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 150)
-        player.setScale(5)
+        player.setScale(1)
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width/4)
         player.physicsBody?.isDynamic = true
         player.physicsBody?.categoryBitMask = photonTorpedoCategory
@@ -103,6 +113,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
         
+        self.scoreLabel.text = "Score: 0"
+        self.scoreLabel.fontSize = 70
+        self.scoreLabel.fontColor = SKColor.brown
+        self.scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
+        self.scoreLabel.position = CGPoint(x: self.frame.size.width/7.8, y: self.frame.size.height/1.08)
+        self.scoreLabel.zPosition = 100
+        self.addChild(self.scoreLabel)
+        
+        self.livesLabel.text = "Lives: 3"
+        self.livesLabel.fontSize = 70
+        self.livesLabel.fontColor = SKColor.brown
+        self.livesLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
+        self.livesLabel.position = CGPoint(x: self.frame.size.width/1.130, y: self.frame.size.height/1.08)
+        self.livesLabel.zPosition = 100
+        self.addChild(self.livesLabel)
+        
+        
+        // Timer
         levelTimerLabel.fontColor = SKColor.brown
         levelTimerLabel.fontSize = 100
         levelTimerLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.08)
@@ -148,8 +176,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(kanjiLebel4)
         
         
-        
-        spawnAlien()
+        playerMove()
+        spawn()
+        timmer()
         
         motionManger.accelerometerUpdateInterval = 0.2
         motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -174,6 +203,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    @objc func playerMove() {
+        let textureAtlas = SKTextureAtlas(named: "Player")
+        let frame0 = textureAtlas.textureNamed("ninc1")
+        let frame1 = textureAtlas.textureNamed("ninc2")
+        let frame2 = textureAtlas.textureNamed("ninc3")
+        let frame3 = textureAtlas.textureNamed("ninc4")
+        let player1texture = [frame0,frame1,frame2,frame3]
+        
+        let animateAction = SKAction.animate(with: player1texture, timePerFrame: 0.15)
+        player.run(animateAction)
+    }
+    
+    
     func startGame(){
         
         self.currentGameState = GameState.inGame
@@ -191,38 +233,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func runningBackground1() {
         background = SKSpriteNode(imageNamed: "MainGameScreen")
         background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
-//        starfield.advanceSimulationTime(10)
         background.setScale(1)
-        let animationDuration:TimeInterval = 3.75
         background.zPosition = -1
         self.addChild(background)
-        
+        let animationDuration:TimeInterval = 3.75
         var actionBackground = [SKAction]()
         background.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2)
         actionBackground.append(SKAction.move(to: CGPoint(x: self.frame.size.width/2, y: -background.size.height), duration: animationDuration))
         background.run(SKAction.sequence(actionBackground))
         
-//        background.run(SKAction.sequence(moveForever))
     }
     
     @objc func runningBackground2() {
         background = SKSpriteNode(imageNamed: "MainGameScreen")
         background.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
-//        starfield.advanceSimulationTime(10)
         background.setScale(1)
         let animationDuration:TimeInterval = 2.5
-        
+        self.addChild(background)
         var actionBackground = [SKAction]()
         background.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height+self.frame.size.height/2)
         actionBackground.append(SKAction.move(to: CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/2), duration: animationDuration))
         background.run(SKAction.sequence(actionBackground))
         background.zPosition = -1
-        self.addChild(background)
-//        background.run(SKAction.sequence(moveForever))
+
     }
     
     @objc func timmer() {
-        
         
         levelTimerLabel.text = "Time left: \(levelTimerValue)"
         let wait = SKAction.wait(forDuration: 1) //change countdown speed here
@@ -232,40 +268,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.levelTimerValue > 0{
                     self.levelTimerValue-=1
                 }else{
-//                    self.removeAction(forKey: "countdown")
-                    var levelTimerValue: Int = 7 {
-                        didSet {
-                            levelTimerLabel.text = "Time left: \(levelTimerValue)"
-                        }
-                    }
-                    timmer()
+//
+                    self.levelTimerValue = 7
                 }
             })
             let sequence = SKAction.sequence([wait,block])
-        
-
-        run(SKAction.repeatForever(sequence), withKey: "countdown")
-//        levelTimerLabel.removeFromParent()
-    }
-//
     
-    func spawnAlien() {
+        run(SKAction.repeatForever(sequence))
+    }
+    
+    
+    func spawn() {
+        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.6), target: self, selector: #selector(playerMove), userInfo: nil, repeats: true)
         gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground1), userInfo: nil, repeats: true)
         gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground2), userInfo: nil, repeats: true)
-//        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(timmer), userInfo: nil, repeats: true)
+//        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(5), target: self, selector: #selector(timmer), userInfo: nil, repeats: true)
         
         if kanjiLebel1.text != answer {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: true)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: true)
         }
         if kanjiLebel2.text != answer {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien2), userInfo: nil, repeats: true)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: true)
         }
         if kanjiLebel3.text != answer {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien3), userInfo: nil, repeats: true)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: true)
         }
         if kanjiLebel4.text != answer{
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien4), userInfo: nil, repeats: true)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: true)
         }
+    }
+    
+    func addScore(){
+        
+        gameScore += 1
+        self.scoreLabel.text = "Score: \(gameScore)"
+        
+        if(gameScore == 10 || gameScore == 25 || gameScore == 50){
+            self.startNewLevel()
+        }
+        
     }
     
     func runGameOver(){
@@ -294,7 +343,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func changeScene(){
-
+        
         let sceneToMoveTo = GameOverScene(size: self.size)
         sceneToMoveTo.scaleMode = self.scaleMode
 
@@ -303,37 +352,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //    lazy var randomQuestion:SKAction = {
-    //
-    //        for i in 0...1 {
-    //            let texture = SKTexture(imageNamed: "human\(i + 1).png")
-    //
-    //            textures.append(texture)
-    //        }
-    //
-    //        let action = SKAction.animate(with: textures, timePerFrame: 0.15, resize: true, restore: true)
-    //
-    //        return SKAction.repeatForever(action)
-    //        }()
+    func loseLife(){
+
+        self.livesNumber -= 1
+        self.livesLabel.text = "Lives: \(self.livesNumber)"
+
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+        let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
+        self.livesLabel.run(scaleSequence)
+
+        if(self.livesNumber == 0){
+            player.removeFromParent()
+            self.runGameOver()
+        }
+
+    }
     
-//    func loseLife(){
-//
-//        self.livesNumber -= 1
-//        self.livesLabel.text = "Lives: \(self.livesNumber)"
-//
-//        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
-//        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
-//        let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
-//        self.livesLabel.run(scaleSequence)
-//
-//        if(self.livesNumber == 0){
-//            self.runGameOver()
-//        }
-//
-//    }
+    @objc func addAnswer () {
+        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+        
+        let spawnAnswer = SKSpriteNode(imageNamed: possibleAliens[0])
+        
+        spawnAnswer.physicsBody = SKPhysicsBody(rectangleOf: spawnAnswer.size)
+        spawnAnswer.physicsBody?.isDynamic = true
+        spawnAnswer.setScale(5)
+        
+        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
+        spawnAnswer.physicsBody?.contactTestBitMask = photonTorpedoCategory
+        spawnAnswer.physicsBody?.collisionBitMask = 0
+        
+        self.addChild(spawnAnswer)
+        let animationDuration:TimeInterval = 1
+        var actionArray = [SKAction]()
+        spawnAnswer.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height + spawnAnswer.size.height) // start poin
+        actionArray.append(SKAction.move(to: CGPoint(x: self.frame.size.width/3.75, y: -spawnAnswer.size.height), duration: animationDuration)) // end poin
+        actionArray.append(SKAction.removeFromParent())
+        
+        spawnAnswer.run(SKAction.sequence(actionArray))
     
-     
-    
+    }
     
     @objc func addAlien1 () {
         possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
@@ -356,7 +414,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         actionArray.append(SKAction.removeFromParent())
         
         alien.run(SKAction.sequence(actionArray))
-        
     
     }
     
@@ -382,7 +439,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         alien.run(SKAction.sequence(actionArray))
         
-    
     }
     
     @objc func addAlien3 () {
@@ -407,7 +463,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         alien.run(SKAction.sequence(actionArray))
         
-    
     }
     
     @objc func addAlien4 () {
@@ -429,7 +484,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         alien.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height + alien.size.height) // start poin
         actionArray.append(SKAction.move(to: CGPoint(x: self.frame.size.width/1.375, y: -alien.size.height), duration: animationDuration)) // end poin
         actionArray.append(SKAction.removeFromParent())
-        
         alien.run(SKAction.sequence(actionArray))
         
     }
@@ -476,17 +530,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             firstBody = contact.bodyA
             secondBody = contact.bodyB
+            let loseALife = SKAction.run(self.loseLife)
+            let enemySequence = SKAction.sequence([loseALife])
+                run(enemySequence)
         }else{
             firstBody = contact.bodyB
             secondBody = contact.bodyA
+//            let loseALife = SKAction.run(self.loseLife)
+//            let enemySequence = SKAction.sequence([loseALife])
+//                run(enemySequence)
+            addScore()
         }
         
         if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
            torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
         }
         
-        self.runGameOver()
-        
+//        if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & answerCategory) != 0 {
+//           torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
+//            addScore()
+//        }
     }
     
     
@@ -498,13 +561,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
         
-        player.removeFromParent()
         alienNode.removeFromParent()
         
         
         self.run(SKAction.wait(forDuration: 2)) {
             explosion.removeFromParent()
         }
+        
+        
         
     }
     
