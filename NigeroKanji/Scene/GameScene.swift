@@ -14,17 +14,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc var background:SKSpriteNode!
     var sakuraFalls:SKEmitterNode!
     var player:SKSpriteNode!
-    let scoreLabel = SKLabelNode(fontNamed: "theboldfont")
-    let livesLabel = SKLabelNode(fontNamed: "theboldfont")
-    let questionLabel = SKLabelNode(fontNamed: "theboldfont")
-    let kanjiLebel1 = SKLabelNode(fontNamed: "theboldfont")
-    let kanjiLebel2 = SKLabelNode(fontNamed: "theboldfont")
-    let kanjiLebel3 = SKLabelNode(fontNamed: "theboldfont")
-    let kanjiLebel4 = SKLabelNode(fontNamed: "theboldfont")
-    let countDownLabel = SKLabelNode(fontNamed: "theboldfont")
-    var levelTimerLabel = SKLabelNode(fontNamed: "theboldfont")
+    let scoreLabel = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let livesLabel = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let questionLabel = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let kanjiLebel1 = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let kanjiLebel2 = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let kanjiLebel3 = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let kanjiLebel4 = SKLabelNode(fontNamed: "theboldfont.ttf")
+    let countDownLabel = SKLabelNode(fontNamed: "theboldfont.ttf")
+    var levelTimerLabel = SKLabelNode(fontNamed: "theboldfont.ttf")
+    var model = Question()
+//    var kanjiBallon1 = ""
+//    var kanjiBallon2 = ""
+//    var kanjiBallon3 = ""
+//    var kanjiBallon4 = ""
+//    var question = ""
     
-    var send = [kanjiBallon1, kanjiBallon2, kanjiBallon3, kanjiBallon4, question, answer]
+    
+    
+    
+//    var send = [kanjiBallon1, kanjiBallon2, kanjiBallon3, kanjiBallon4, question, answer]
     
     var livesNumber = 3
     var levelNumber = 1
@@ -82,6 +91,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
+    
+    
     override func didMove(to view: SKView) {
         
         sakuraFalls = SKEmitterNode(fileNamed: "Starfield")
@@ -93,7 +104,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runningBackground1()
         runningBackground2()
-
+        
+//        model.showKanji()
+//        let kanjiBallon1 = model.screenKanji1.karakter
+//        let kanjiBallon2 = model.screenKanji2.karakter
+//        let kanjiBallon3 = model.screenKanji3.karakter
+//        let kanjiBallon4 = model.screenKanji4.karakter
+//        let question = model.kanjiArti
+        
+//        questionLabel.text = "ini apa \(question)"
+        questionLabel.numberOfLines = 3
+        questionLabel.fontSize = 75
+        questionLabel.horizontalAlignmentMode = .center
+        questionLabel.fontColor = SKColor.brown
+        questionLabel.preferredMaxLayoutWidth = self.frame.size.width/2
+        questionLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        questionLabel.zPosition = 1
+        self.addChild(questionLabel)
+        
+//        kanjiLebel1.text = kanjiBallon1
+        kanjiLebel1.fontSize = 175
+        kanjiLebel1.fontColor = SKColor.brown
+        kanjiLebel1.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height/1.25)
+        kanjiLebel1.zPosition = 1
+        self.addChild(kanjiLebel1)
+        
+//        kanjiLebel2.text = kanjiBallon2
+        kanjiLebel2.fontSize = 175
+        kanjiLebel2.fontColor = SKColor.brown
+        kanjiLebel2.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height/1.25)
+        kanjiLebel2.zPosition = 1
+        self.addChild(kanjiLebel2)
+        
+//        kanjiLebel3.text = kanjiBallon3
+        kanjiLebel3.fontSize = 175
+        kanjiLebel3.fontColor = SKColor.brown
+        kanjiLebel3.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height/1.25)
+        kanjiLebel3.zPosition = 1
+        self.addChild(kanjiLebel3)
+        
+        
+//        kanjiLebel4.text = kanjiBallon4
+        kanjiLebel4.fontSize = 175
+        kanjiLebel4.fontColor = SKColor.brown
+        kanjiLebel4.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height/1.25)
+        kanjiLebel4.zPosition = 1
+        self.addChild(kanjiLebel4)
+        
         // player
         player = SKSpriteNode(imageNamed: "ninc2")
         player.position = CGPoint(x: self.frame.size.width / 2, y: player.size.height / 2 + 150)
@@ -124,56 +181,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.livesLabel.zPosition = 100
         self.addChild(self.livesLabel)
         
-        
         // Timer
         levelTimerLabel.fontColor = SKColor.brown
         levelTimerLabel.fontSize = 100
         levelTimerLabel.position = CGPoint(x: self.frame.size.width/2, y: self.frame.size.height/1.08)
         addChild(levelTimerLabel)
         
-        questionLabel.text = "coba tebak kanji mana yang artinya : \(question)"
-        questionLabel.numberOfLines = 3
-        questionLabel.fontSize = 75
-        questionLabel.horizontalAlignmentMode = .center
-        questionLabel.fontColor = SKColor.brown
-        questionLabel.preferredMaxLayoutWidth = self.frame.size.width/2
-        questionLabel.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
-        questionLabel.zPosition = 1
-        self.addChild(questionLabel)
-        
-
-        kanjiLebel1.text = kanjiBallon1
-        kanjiLebel1.fontSize = 175
-        kanjiLebel1.fontColor = SKColor.brown
-        kanjiLebel1.position = CGPoint(x: self.frame.size.width/3.75, y: self.frame.size.height/1.25)
-        kanjiLebel1.zPosition = 1
-        self.addChild(kanjiLebel1)
-        
-        kanjiLebel2.text = kanjiBallon2
-        kanjiLebel2.fontSize = 175
-        kanjiLebel2.fontColor = SKColor.brown
-        kanjiLebel2.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height/1.25)
-        kanjiLebel2.zPosition = 1
-        self.addChild(kanjiLebel2)
-        
-        kanjiLebel3.text = kanjiBallon3
-        kanjiLebel3.fontSize = 175
-        kanjiLebel3.fontColor = SKColor.brown
-        kanjiLebel3.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height/1.25)
-        kanjiLebel3.zPosition = 1
-        self.addChild(kanjiLebel3)
-        
-        kanjiLebel4.text = kanjiBallon4
-        kanjiLebel4.fontSize = 175
-        kanjiLebel4.fontColor = SKColor.brown
-        kanjiLebel4.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height/1.25)
-        kanjiLebel4.zPosition = 1
-        self.addChild(kanjiLebel4)
-        
         
         playerMove()
         spawn()
         timmer()
+        kanjiLabel()
         
         motionManger.accelerometerUpdateInterval = 0.2
         motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
@@ -196,6 +214,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         startNewLevel()
         
+    }
+    
+    @objc func kanjiLabel(){
+        model.showKanji()
+        let kanjiBallon1 = model.screenKanji1.karakter
+        let kanjiBallon2 = model.screenKanji2.karakter
+        let kanjiBallon3 = model.screenKanji3.karakter
+        let kanjiBallon4 = model.screenKanji4.karakter
+        let question = model.kanjiArti
+        let answer =  model.kanjiKarakter
+        
+        self.scoreLabel.text = "Score: \(gameScore)"
+        self.kanjiLebel1.text = kanjiBallon1
+        self.kanjiLebel2.text = kanjiBallon2
+        self.kanjiLebel3.text = kanjiBallon3
+        self.kanjiLebel4.text = kanjiBallon4
+        self.questionLabel.text = "ini apa \(question)"
+        
+        print(kanjiBallon1, kanjiBallon2, kanjiBallon3, kanjiBallon4, question, answer)
+
     }
     
     @objc func playerMove() {
@@ -267,17 +305,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.levelTimerValue = 7
                 }
             })
-            let sequence = SKAction.sequence([wait,block])
+            let sequence = SKAction.sequence([block,wait])
     
         run(SKAction.repeatForever(sequence))
     }
     
     
     func spawn() {
+        
+        let answer = model.kanjiKarakter
+        
         gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.6), target: self, selector: #selector(playerMove), userInfo: nil, repeats: true)
         gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground1), userInfo: nil, repeats: true)
         gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2.5), target: self, selector: #selector(runningBackground2), userInfo: nil, repeats: true)
-//        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(5), target: self, selector: #selector(timmer), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(kanjiLabel), userInfo: nil, repeats: true)
         
         if kanjiLebel1.text != answer {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: true)
@@ -531,10 +572,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else{
             firstBody = contact.bodyB
             secondBody = contact.bodyA
-//            let loseALife = SKAction.run(self.loseLife)
-//            let enemySequence = SKAction.sequence([loseALife])
-//                run(enemySequence)
-            addScore()
+            let loseALife = SKAction.run(self.loseLife)
+            let enemySequence = SKAction.sequence([loseALife])
+                run(enemySequence)
+//            addScore()
         }
         
         if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
@@ -542,7 +583,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
 //        if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & answerCategory) != 0 {
-//           torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
+//            torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
 //            addScore()
 //        }
     }
