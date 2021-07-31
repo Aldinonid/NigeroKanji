@@ -31,16 +31,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    var kanjiBallon4 = ""
 //    var question = ""
     
-    
-    
-    
-    
-    
 //    var send = [kanjiBallon1, kanjiBallon2, kanjiBallon3, kanjiBallon4, question, answer]
     
     var livesNumber = 3
     var levelNumber = 1
-//    var levelTime = 7
+    var levelTime = 7
     var levelTimerValue: Int = 7 {
         didSet {
             levelTimerLabel.text = "Time left: \(levelTimerValue)"
@@ -64,12 +59,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameTimer:Timer!
     
-    var possibleAliens = ["alien", "alien2", "alien3"]
+    var possibleAliens = "alien2"
     
     var currentGameState = GameState.preGame
     
+    struct PhysicsCategories{
+        static let None: UInt32 = 0
+        static let Player: UInt32 = 0b1 //1
+        static let Answer : UInt32 = 0b10 //2
+        static let Alien: UInt32 = 0b100 //4
+    }
+    
     let alienCategory:UInt32 = 0x1 << 1
     let answerCategory:UInt32 = 0x1 << 1
+    let playerCategory:UInt32 = 0x1 << 1
     let photonTorpedoCategory:UInt32 = 0x1 << 0
 
     let gameArea: CGRect
@@ -117,27 +120,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let answer = model.kanjiKarakter
         
         if kanjiBallon1 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer1), userInfo: nil, repeats: false)
         }
         if kanjiBallon2 != answer{
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien2), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien2), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer2), userInfo: nil, repeats: false)
         }
         if kanjiBallon3 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien3), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien3), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer3), userInfo: nil, repeats: false)
         }
         if kanjiBallon4 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien4), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien4), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer4), userInfo: nil, repeats: false)
         }
         
-        self.questionLabel.text = "coba tebak kanji mana yang artinya : \"\(question)\""
+        self.questionLabel.text = "coba tebak kanji mana yang artinya \"\(question)\""
         questionLabel.numberOfLines = 3
         questionLabel.fontSize = 75
         questionLabel.horizontalAlignmentMode = .center
@@ -151,7 +154,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         answerLabel.fontSize = 100
         answerLabel.fontColor = SKColor.brown
         answerLabel.preferredMaxLayoutWidth = self.frame.size.width/2
-        answerLabel.position = CGPoint(x: self.size.width/2, y: (self.size.height/2)+200)
+        answerLabel.position = CGPoint(x: self.size.width/2, y: (self.size.height/2) - 300)
         answerLabel.zPosition = 1
         self.addChild(answerLabel)
         
@@ -190,9 +193,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.setScale(1)
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width/4)
         player.physicsBody?.isDynamic = true
-        player.physicsBody?.categoryBitMask = photonTorpedoCategory
-        player.physicsBody?.contactTestBitMask = alienCategory
-        player.physicsBody?.collisionBitMask = 0
+//        player.physicsBody?.categoryBitMask = playerCategory
+//        player.physicsBody?.contactTestBitMask = alienCategory & answerCategory
+//        player.physicsBody?.collisionBitMask = 0
+        player.physicsBody!.categoryBitMask = PhysicsCategories.Player
+        player.physicsBody!.collisionBitMask = PhysicsCategories.None
+        player.physicsBody!.contactTestBitMask = PhysicsCategories.Alien | PhysicsCategories.Answer
         player.physicsBody?.usesPreciseCollisionDetection = true
         self.addChild(player)
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -299,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.kanjiLebel2.text = kanjiBallon2
         self.kanjiLebel3.text = kanjiBallon3
         self.kanjiLebel4.text = kanjiBallon4
-        self.questionLabel.text = "coba tebak kanji mana yang artinya : \"\(question)\""
+        self.questionLabel.text = "coba tebak kanji mana yang artinya \"\(question)\""
         self.answerLabel.text = answer
         
         
@@ -339,24 +345,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
        
         
         if kanjiBallon1 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien1), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer1), userInfo: nil, repeats: false)
         }
         if kanjiBallon2 != answer{
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien2), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien2), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer2), userInfo: nil, repeats: false)
         }
         if kanjiBallon3 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien3), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien3), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer3), userInfo: nil, repeats: false)
         }
         if kanjiBallon4 != answer {
-            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAlien4), userInfo: nil, repeats: false)
-//        }else {
-//            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(7), target: self, selector: #selector(addAnswer), userInfo: nil, repeats: false)
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAlien4), userInfo: nil, repeats: false)
+        }else {
+            gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer4), userInfo: nil, repeats: false)
         }
     }
     
@@ -425,7 +431,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if levelTimerValue > 0{
                    levelTimerValue -= 1
                 }else{
-                   levelTimerValue = 7
+                   levelTimerValue = levelTime
                     kanjiLabel()
                 }
             })
@@ -444,16 +450,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue+2), target: self, selector: #selector(showKanji), userInfo: nil, repeats: true)
     }
     
-    func addScore(){
-        
-        gameScore += 1
-        self.scoreLabel.text = "Score: \(gameScore)"
-        
-        if(gameScore == 10 || gameScore == 25 || gameScore == 50){
-            self.startNewLevel()
-        }
-        
-    }
+    
     
     func runGameOver(){
         
@@ -461,17 +458,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.removeAllActions()
         
-        self.enumerateChildNodes(withName: "Bullet"){
-            player, stop in
-            
-            player.removeAllActions()
-        }
-        
-        self.enumerateChildNodes(withName: "Enemy"){
-            enemy, stop in
-            
-            enemy.removeAllActions()
-        }
+//        self.enumerateChildNodes(withName: "Bullet"){
+//            player, stop in
+//
+//            player.removeAllActions()
+//        }
+//
+//        self.enumerateChildNodes(withName: "Enemy"){
+//            enemy, stop in
+//
+//            enemy.removeAllActions()
+//        }
         
         let changeSceneAction = SKAction.run(self.changeScene)
         let waitToChangeScene = SKAction.wait(forDuration: 1)
@@ -489,6 +486,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.presentScene(sceneToMoveTo, transition: myTransition)
     }
     
+    func addScore(){
+        
+        gameScore += 1
+        self.scoreLabel.text = "Score: \(gameScore)"
+        
+        let scaleUp = SKAction.scale(to: 1.5, duration: 0.2)
+        let scaleDown = SKAction.scale(to: 1, duration: 0.2)
+        let scaleSequence = SKAction.sequence([scaleUp, scaleDown])
+        self.scoreLabel.run(scaleSequence)
+        
+//        if(gameScore == 10 || gameScore == 25 || gameScore == 50){
+//            self.startNewLevel()
+//        }
+        
+    }
     
     func loseLife(){
 
@@ -507,18 +519,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
-    @objc func addAnswer () {
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+    @objc func addAnswer1 () {
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
         
-        let spawnAnswer = SKSpriteNode(imageNamed: possibleAliens[0])
+        let spawnAnswer = SKSpriteNode(imageNamed: "alien")
         
         spawnAnswer.physicsBody = SKPhysicsBody(rectangleOf: spawnAnswer.size)
         spawnAnswer.physicsBody?.isDynamic = true
         spawnAnswer.setScale(5)
         
-        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
-        spawnAnswer.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        spawnAnswer.physicsBody?.collisionBitMask = 0
+//        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
+//        spawnAnswer.physicsBody?.contactTestBitMask = playerCategory
+//        spawnAnswer.physicsBody?.collisionBitMask = 0
+        spawnAnswer.physicsBody!.categoryBitMask = PhysicsCategories.Answer
+        spawnAnswer.physicsBody!.collisionBitMask = PhysicsCategories.None
+        spawnAnswer.physicsBody!.contactTestBitMask = PhysicsCategories.Player
         
         self.addChild(spawnAnswer)
         let animationDuration:TimeInterval = 1
@@ -531,18 +546,102 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     }
     
-    @objc func addAlien1 () {
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+    @objc func addAnswer2 () {
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
         
-        let alien = SKSpriteNode(imageNamed: possibleAliens[0])
+        let spawnAnswer = SKSpriteNode(imageNamed: "alien")
+        
+        spawnAnswer.physicsBody = SKPhysicsBody(rectangleOf: spawnAnswer.size)
+        spawnAnswer.physicsBody?.isDynamic = true
+        spawnAnswer.setScale(5)
+        
+//        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
+//        spawnAnswer.physicsBody?.contactTestBitMask = playerCategory
+//        spawnAnswer.physicsBody?.collisionBitMask = 0
+        spawnAnswer.physicsBody!.categoryBitMask = PhysicsCategories.Answer
+        spawnAnswer.physicsBody!.collisionBitMask = PhysicsCategories.None
+        spawnAnswer.physicsBody!.contactTestBitMask = PhysicsCategories.Player
+        
+        self.addChild(spawnAnswer)
+        let animationDuration:TimeInterval = 1
+        var actionArray = [SKAction]()
+        spawnAnswer.position = CGPoint(x: self.frame.size.width/2.375, y: self.frame.size.height + spawnAnswer.size.height) // start poin
+        actionArray.append(SKAction.move(to: CGPoint(x: self.frame.size.width/2.375, y: -spawnAnswer.size.height), duration: animationDuration)) // end poin
+        actionArray.append(SKAction.removeFromParent())
+        
+        spawnAnswer.run(SKAction.sequence(actionArray))
+    
+    }
+    
+    @objc func addAnswer3 () {
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+        
+        let spawnAnswer = SKSpriteNode(imageNamed: "alien")
+        
+        spawnAnswer.physicsBody = SKPhysicsBody(rectangleOf: spawnAnswer.size)
+        spawnAnswer.physicsBody?.isDynamic = true
+        spawnAnswer.setScale(5)
+        
+//        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
+//        spawnAnswer.physicsBody?.contactTestBitMask = playerCategory
+//        spawnAnswer.physicsBody?.collisionBitMask = 0
+        spawnAnswer.physicsBody!.categoryBitMask = PhysicsCategories.Answer
+        spawnAnswer.physicsBody!.collisionBitMask = PhysicsCategories.None
+        spawnAnswer.physicsBody!.contactTestBitMask = PhysicsCategories.Player
+        
+        self.addChild(spawnAnswer)
+        let animationDuration:TimeInterval = 1
+        var actionArray = [SKAction]()
+        spawnAnswer.position = CGPoint(x: self.frame.size.width/1.75, y: self.frame.size.height + spawnAnswer.size.height) // start poin
+        actionArray.append(SKAction.move(to: CGPoint(x: self.frame.size.width/1.75, y: -spawnAnswer.size.height), duration: animationDuration)) // end poin
+        actionArray.append(SKAction.removeFromParent())
+        
+        spawnAnswer.run(SKAction.sequence(actionArray))
+    
+    }
+    
+    @objc func addAnswer4 () {
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+        
+        let spawnAnswer = SKSpriteNode(imageNamed: "alien")
+        
+        spawnAnswer.physicsBody = SKPhysicsBody(rectangleOf: spawnAnswer.size)
+        spawnAnswer.physicsBody?.isDynamic = true
+        spawnAnswer.setScale(5)
+        
+//        spawnAnswer.physicsBody?.categoryBitMask = answerCategory
+//        spawnAnswer.physicsBody?.contactTestBitMask = playerCategory
+//        spawnAnswer.physicsBody?.collisionBitMask = 0
+        spawnAnswer.physicsBody!.categoryBitMask = PhysicsCategories.Answer
+        spawnAnswer.physicsBody!.collisionBitMask = PhysicsCategories.None
+        spawnAnswer.physicsBody!.contactTestBitMask = PhysicsCategories.Player
+        
+        self.addChild(spawnAnswer)
+        let animationDuration:TimeInterval = 1
+        var actionArray = [SKAction]()
+        spawnAnswer.position = CGPoint(x: self.frame.size.width/1.375, y: self.frame.size.height + spawnAnswer.size.height) // start poin
+        actionArray.append(SKAction.move(to: CGPoint(x: self.frame.size.width/1.375, y: -spawnAnswer.size.height), duration: animationDuration)) // end poin
+        actionArray.append(SKAction.removeFromParent())
+        
+        spawnAnswer.run(SKAction.sequence(actionArray))
+    
+    }
+    
+    @objc func addAlien1 () {
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+        
+        let alien = SKSpriteNode(imageNamed: possibleAliens)
         
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         alien.setScale(5)
         
-        alien.physicsBody?.categoryBitMask = alienCategory
-        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        alien.physicsBody?.collisionBitMask = 0
+//        alien.physicsBody?.categoryBitMask = alienCategory
+//        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+//        alien.physicsBody?.collisionBitMask = 0
+        alien.physicsBody!.categoryBitMask = PhysicsCategories.Alien
+        alien.physicsBody!.collisionBitMask = PhysicsCategories.None
+        alien.physicsBody!.contactTestBitMask = PhysicsCategories.Player
         
         self.addChild(alien)
         let animationDuration:TimeInterval = 1
@@ -556,17 +655,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien2 () {
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
         
-        let alien = SKSpriteNode(imageNamed: possibleAliens[0])
+        let alien = SKSpriteNode(imageNamed: possibleAliens)
         
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         alien.setScale(5)
         
-        alien.physicsBody?.categoryBitMask = alienCategory
-        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        alien.physicsBody?.collisionBitMask = 0
+//        alien.physicsBody?.categoryBitMask = alienCategory
+//        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+//        alien.physicsBody?.collisionBitMask = 0
+        alien.physicsBody!.categoryBitMask = PhysicsCategories.Alien
+        alien.physicsBody!.collisionBitMask = PhysicsCategories.None
+        alien.physicsBody!.contactTestBitMask = PhysicsCategories.Player
         
         self.addChild(alien)
         let animationDuration:TimeInterval = 1
@@ -580,17 +682,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien3 () {
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
         
-        let alien = SKSpriteNode(imageNamed: possibleAliens[0])
+        let alien = SKSpriteNode(imageNamed: possibleAliens)
         
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         alien.setScale(5)
         
-        alien.physicsBody?.categoryBitMask = alienCategory
-        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        alien.physicsBody?.collisionBitMask = 0
+//        alien.physicsBody?.categoryBitMask = alienCategory
+//        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+//        alien.physicsBody?.collisionBitMask = 0
+        alien.physicsBody!.categoryBitMask = PhysicsCategories.Alien
+        alien.physicsBody!.collisionBitMask = PhysicsCategories.None
+        alien.physicsBody!.contactTestBitMask = PhysicsCategories.Player
         
         self.addChild(alien)
         let animationDuration:TimeInterval = 1
@@ -604,17 +709,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien4 () {
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+//        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
         
-        let alien = SKSpriteNode(imageNamed: possibleAliens[0])
+        let alien = SKSpriteNode(imageNamed: possibleAliens)
         
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         alien.setScale(5)
         
-        alien.physicsBody?.categoryBitMask = alienCategory
-        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        alien.physicsBody?.collisionBitMask = 0
+//        alien.physicsBody?.categoryBitMask = alienCategory
+//        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+//        alien.physicsBody?.collisionBitMask = 0
+        alien.physicsBody!.categoryBitMask = PhysicsCategories.Alien
+        alien.physicsBody!.collisionBitMask = PhysicsCategories.None
+        alien.physicsBody!.contactTestBitMask = PhysicsCategories.Player
         
         self.addChild(alien)
         let animationDuration:TimeInterval = 1
@@ -662,32 +770,88 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-        var firstBody:SKPhysicsBody
-        var secondBody:SKPhysicsBody
-        
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-            let loseALife = SKAction.run(self.loseLife)
-            let enemySequence = SKAction.sequence([loseALife])
-                run(enemySequence)
-        }else{
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-            let loseALife = SKAction.run(self.loseLife)
-            let enemySequence = SKAction.sequence([loseALife])
-                run(enemySequence)
-            
-        }
-//        addScore()
-        if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
-           torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
-        }
-        
-//        if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & answerCategory) != 0 {
+//        var firstBody:SKPhysicsBody
+//        var secondBody:SKPhysicsBody
+//
+//        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+//            firstBody = contact.bodyA
+//            secondBody = contact.bodyB
+////            let loseALife = SKAction.run(self.loseLife)
+////            let enemySequence = SKAction.sequence([loseALife])
+////                run(enemySequence)
+//        }else{
+//            firstBody = contact.bodyB
+//            secondBody = contact.bodyA
+////            let loseALife = SKAction.run(self.loseLife)
+////            let enemySequence = SKAction.sequence([loseALife])
+////                run(enemySequence)
+//
+//        }
+////        addScore()
+//        if (firstBody.categoryBitMask & playerCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
+//           torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
+//            let loseALife = SKAction.run(self.loseLife)
+//            let enemySequence = SKAction.sequence([loseALife])
+//                run(enemySequence)
+//        }
+//
+//        if (firstBody.categoryBitMask & playerCategory) != 0 && (secondBody.categoryBitMask & answerCategory) != 0 {
 //            torpedoDidCollideWithAlien(player: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
 //            addScore()
 //        }
+        
+        var body1 = SKPhysicsBody()
+        var body2 = SKPhysicsBody()
+
+        if(contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask){
+            body1 = contact.bodyA
+            body2 = contact.bodyB
+        } else{
+            body1 = contact.bodyB
+            body2 = contact.bodyA
+        }
+        
+        if(body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Alien){
+            
+            //if player hits enemy
+            if(body1.node != nil){
+//                self.spawnExplosion(spawnPosition: body1.node!.position)
+                body2.node?.removeFromParent()
+                let loseALife = SKAction.run(self.loseLife)
+                let enemySequence = SKAction.sequence([loseALife])
+                    run(enemySequence)
+            }
+            
+//            if(body2.node != nil){
+//                self.spawnExplosion(spawnPosition: body2.node!.position)
+//            }
+//
+//
+//            body1.node?.removeFromParent()
+//            body2.node?.removeFromParent()
+//            self.runGameOver()
+        }
+        
+        if(body1.categoryBitMask == PhysicsCategories.Player && body2.categoryBitMask == PhysicsCategories.Answer){
+            
+            //if bullet hits enemy
+            if(body1.node != nil){
+                addScore()
+                body2.node?.removeFromParent()
+//                if(body2.node!.position.y > self.size.height){
+//                    return
+//                } else {
+                    
+                    //spawnExplosion
+//                    self.spawnExplosion(spawnPosition: body2.node!.position)
+//                    self.addScore()
+//                    body1.node?.removeFromParent()
+//                    body2.node?.removeFromParent()
+//                }
+            }
+            
+        }
+        
     }
     
     
