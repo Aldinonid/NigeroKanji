@@ -140,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameTimer = Timer.scheduledTimer(timeInterval: TimeInterval(levelTimerValue), target: self, selector: #selector(addAnswer4), userInfo: nil, repeats: false)
         }
         
-        self.questionLabel.text = "coba tebak kanji mana yang artinya \"\(question)\""
+        self.questionLabel.text = "Guess Which the Meaning of Kanji is \"\(question)\""
         questionLabel.numberOfLines = 3
         questionLabel.fontSize = 75
         questionLabel.horizontalAlignmentMode = .center
@@ -156,7 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         answerLabel.preferredMaxLayoutWidth = self.frame.size.width/2
         answerLabel.position = CGPoint(x: self.size.width/2, y: (self.size.height/2) - 300)
         answerLabel.zPosition = 1
-        self.addChild(answerLabel)
+//       self.addChild(answerLabel)
         
         kanjiLebel1.text = kanjiBallon1
         kanjiLebel1.fontSize = 175
@@ -433,6 +433,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else{
                    levelTimerValue = levelTime
                     kanjiLabel()
+                    levelNumber += 1
+                    
+                    if levelNumber == 10 {
+                        runGameOver()
+                    }
+                    
                 }
             })
             let sequence = SKAction.sequence([block, wait])
@@ -476,6 +482,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.run(changeSceneSequence)
     }
     
+    func runGameWin(){
+        
+        self.currentGameState = GameState.afterGame
+        
+        self.removeAllActions()
+        
+        let changeSceneAction = SKAction.run(self.changeSceneWin)
+        let waitToChangeScene = SKAction.wait(forDuration: 1)
+        let changeSceneSequence = SKAction.sequence([waitToChangeScene, changeSceneAction])
+        self.run(changeSceneSequence)
+    }
+    
     
     func changeScene(){
         
@@ -485,6 +503,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let myTransition = SKTransition.fade(withDuration: 0.5)
         self.view!.presentScene(sceneToMoveTo, transition: myTransition)
     }
+    
+    func changeSceneWin(){
+        
+        let sceneToMoveTo = GameWinScene(size: self.size)
+        sceneToMoveTo.scaleMode = self.scaleMode
+
+        let myTransition = SKTransition.fade(withDuration: 0.5)
+        self.view!.presentScene(sceneToMoveTo, transition: myTransition)
+    }
+    
     
     func addScore(){
         
@@ -499,6 +527,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        if(gameScore == 10 || gameScore == 25 || gameScore == 50){
 //            self.startNewLevel()
 //        }
+        
+        
+        if(self.gameScore == 10){
+            player.removeFromParent()
+            self.runGameWin()
+        }
+
         
     }
     

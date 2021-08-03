@@ -1,20 +1,23 @@
 //
-//  GameOverScene.swift
-//  Stick-Hero
+//  GameWinScene.swift
+//  NigeroKanji
 //
-//  Created by Muhammad Noor Ansyari on 24/07/21.
+//  Created by Jeremy Yonathan on 01/08/21.
+//
+
+
 
 
 import Foundation
 import SpriteKit
 
-class GameOverScene: SKScene{
+class GameWinScene: SKScene{
  
     let restartLabel = SKLabelNode(fontNamed: "theboldfont")
     var background:SKSpriteNode!
     
     override func didMove(to view: SKView) {
-
+        
 //        let bckRnd = SKSpriteNode(imageNamed: "background")
 //        bckRnd.size = self.size
 //        bckRnd.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
@@ -30,7 +33,7 @@ class GameOverScene: SKScene{
         background.zPosition = -1
         
         let gameOverLabel = SKLabelNode(fontNamed: "theboldfont")
-        gameOverLabel.text = "Game Over"
+        gameOverLabel.text = "Congratulation"
         gameOverLabel.fontSize = 150
         gameOverLabel.fontColor = SKColor.brown
         gameOverLabel.position = CGPoint(x: self.size.width * 0.5, y: self.size.height * 0.7)
@@ -91,3 +94,4 @@ class GameOverScene: SKScene{
     
     
 }
+
